@@ -5,9 +5,15 @@ from langchain_core.output_parsers import StrOutputParser, PydanticOutputParser
 from pydantic import BaseModel, Field
 
 class CustomerSupport(BaseModel):
+    intent : str = Field(description="billing, technical, or general")
     priority : str = Field(description="determine priority of the query from low medium high")
     response : str = Field(description="Your output solution")
-    suggested_kb : str = Field(description="give a random article related to that topic for now")
+
+class CustomerSupportOutput(BaseModel):
+    intent:       str
+    priority:     str
+    response:     str
+    suggested_kb: str 
 
 parser = PydanticOutputParser(pydantic_object=CustomerSupport)
 
@@ -85,11 +91,27 @@ final_chain = (
 
         }
         
-    ) | router
+    ) | 
+
+
+    RunnableParallel({
+        "parsed"  : router,
+        "knowledge" : RunnableLambda(lambda x : x["knowledge_base"])
+    }) | 
+
+
+    # )|
+    RunnableLambda(lambda x : CustomerSupportOutput(
+        priority= x["parsed"].priority,
+        response= x["parsed"].response,
+        suggested_kb= x["knowledge"],
+        intent = x["parsed"].intent,))
 
 )
 
 results = final_chain.invoke({"query" : "i want refund for id 20001"})
+
+print(results)
 
 
 
