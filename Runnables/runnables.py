@@ -63,3 +63,5 @@ chain = prompt | llm | StrOutputParser()
 chain2 = prompt | llm | StrOutputParser() | RunnableLambda(lambda x: x.upper()+"!!!")
 results = chain2.invoke({"topic": "Recursion"})
 print(results)
+
+

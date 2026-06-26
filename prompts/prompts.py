@@ -1,7 +1,12 @@
-from typing import final
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder, PromptTemplate
-
+from langchain_core.output_parsers import (
+    StrOutputParser,
+    JsonOutputParser,
+    CommaSeparatedListOutputParser
+)
+from langchain_core.output_parsers import PydanticOutputParser
+from pydantic import BaseModel
 # The four Runnable methods you should know
 
 # .invoke(input)Run once, return one result. Most common.

@@ -35,3 +35,9 @@ class Product(BaseModel):
 p = Product(name="Mouse", price = 1 , features=["RGB", "backlit"])
 
 print(p.price)
+
+
+
+
+# **********WHY LANGCHAIN USES Pydantic************
+
