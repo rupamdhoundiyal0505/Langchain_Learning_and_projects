@@ -12,5 +12,8 @@ dependencies = [
     "langchain-huggingface",
     "dotenv",
     "langchain-ollama>=1.1.0",
-    "reportlab"
+    "reportlab",
+    "langchain_community",
+    "pypdf",
+    "bs4"
 ]
